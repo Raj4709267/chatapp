@@ -3,7 +3,7 @@ const mongoose= require("mongoose")
 const messageSchema=mongoose.Schema({
     sender:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Users"
+        ref:"user"
     },
     content:{
         type:String,
@@ -11,7 +11,7 @@ const messageSchema=mongoose.Schema({
     },
     chat:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Chat"
+        ref:"chat"
     }
 },{timestamps:ture})
 

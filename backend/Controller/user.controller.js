@@ -10,16 +10,12 @@ const userSignup = async (req, res) => {
   let isUserPresent = await UserModel.findOne({ email: payload.email });
 
   if (isUserPresent) {
-    res
-      .status(404)
-      .json({ message: "User with same email id is already signed up" });
+    res.status(404).json({ message: "Already signed up" });
   } else {
     bcrypt.hash(payload.password, 5, async function (err, hash) {
       // Store hash in your password DB.
       if (err) {
-        res
-          .status(404)
-          .json({ message: "Something went wrong. Try again later" });
+        res.status(404).json({ message: "Something went wrong." });
       } else {
         await UserModel.insertMany([{ ...payload, password: hash }]);
         res.send({ message: "Signup successfull" });
@@ -49,7 +45,12 @@ const userLogin = async (req, res) => {
                 .json({ message: "Something went wrong. Try again later" });
             } else {
               console.log(user);
-              res.send({ token: token, name: user.name, user: user.email,role:user.role });
+              res.send({
+                token: token,
+                name: user.name,
+                user: user.email,
+                role: user.role,
+              });
             }
           }
         );
@@ -64,5 +65,22 @@ const userLogin = async (req, res) => {
   }
 };
 
+const userFind = async (req, res) => {
+  const query = req.query.search;
+  const _id = req.body.userId;
+  try {
+    const data = await UserModel.find({
+      $or: [
+        { name: { $regex: query, $options: "i" } },
+        { email: { $regex: query, $options: "i" } },
+      ],
+    }).find({ _id: { $ne: { _id } } });
+    res.send({ data });
+  } catch (err) {
+    res
+      .status(404)
+      .json({ message: "Something went wrong. Try again later", err });
+  }
+};
 
-module.exports = { userSignup, userLogin };
+module.exports = { userSignup, userLogin, userFind };
