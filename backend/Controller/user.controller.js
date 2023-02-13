@@ -50,6 +50,7 @@ const userLogin = async (req, res) => {
                 name: user.name,
                 user: user.email,
                 role: user.role,
+                id:user.id
               });
             }
           }
@@ -67,7 +68,7 @@ const userLogin = async (req, res) => {
 
 const userFind = async (req, res) => {
   const query = req.query.search;
-  const _id = req.body.userId;
+  const {_id} = req.body;
   try {
     const data = await UserModel.find({
       $or: [

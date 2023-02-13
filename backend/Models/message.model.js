@@ -13,7 +13,7 @@ const messageSchema=mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"chat"
     }
-},{timestamps:ture})
+},{timestamps:true})
 
 const MessageModel=mongoose.model("message",messageSchema)
 

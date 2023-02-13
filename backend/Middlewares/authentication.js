@@ -8,7 +8,7 @@ const authentication = async (req, res, next) => {
       if (err) {
         res.status(404).json({ message: "Please login again" });
       } else {
-        req.body.userId = decoded.userId;
+        req.body._id = decoded.userId;
         next();
       }
     });

@@ -22,7 +22,7 @@ function Register() {
         w="300px"
         m="40px 0 -35px 0"
         height={"130px"}
-        borderRadius="16px"
+        borderRadius="20px"
         borderWidth="1px"
         backgroundColor={"#43c651"}
         color="white"

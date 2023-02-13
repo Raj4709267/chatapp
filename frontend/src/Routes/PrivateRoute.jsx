@@ -1,13 +1,19 @@
-import React, { Children } from "react";
-import { useSelector } from "react-redux";
+import React, { Children, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginSuccess } from "../Redux/AuthReducer/action";
 import Chat from "./Chat";
 import Register from "./Register";
 import Resister from "./Register";
 
 function PrivateRoute({ children }) {
   const { isAuth } = useSelector((store) => store.AuthReducer);
-  console.log(isAuth);
-  if (isAuth) {
+  // const dispatch=useDispatch()
+
+  // useEffect(()=>{
+  
+  //   dispatch(loginSuccess(JSON.parse(localStorage.getItem("userDetails"))))
+  // },[])
+  if (true) {
     return children;
   } else {
     return <Register />;

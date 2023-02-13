@@ -3,9 +3,7 @@ import * as types from "./actionTypes";
 const initState = {
   isAuth: JSON.parse(localStorage.getItem("userDetails")) ? true : false,
   isLoading: false,
-  userName: "",
-  userEmail: "",
-  token:""
+  user:JSON.parse(localStorage.getItem("userDetails"))||{}
 };
 
 function AuthReducer(state = initState, action) {
@@ -21,13 +19,12 @@ function AuthReducer(state = initState, action) {
       return { ...state, isLoading: false };
     }
     case types.LOGIN_SUCCESS: {
+      console.log(payload)
       return {
         ...state,
         isLoading: false,
         isAuth: true,
-        userName: payload.name,
-        userEmail: payload.user,
-        token: payload.token,
+        user:payload
       };
     }
 
