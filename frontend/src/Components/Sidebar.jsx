@@ -1,4 +1,4 @@
-import { Box, Button, Img, Input, Stack, Text } from "@chakra-ui/react";
+import { Box,  Img,   Text } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,17 +6,20 @@ import { getChatSuccess, setCurrentChat } from "../Redux/AppReducer/action";
 import ChatLoading from "./ChatLoading";
 import { SearchModal } from "./Modals/SearchModal";
 import style from "./Sidebar.module.css";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 function Sidebar() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { user } = useSelector((store) => store.AuthReducer);
   const { chats, currentChat } = useSelector((store) => store.AppReducer);
-  console.log(chats,currentChat)
+  console.log(chats, currentChat);
   const dispatch = useDispatch();
 
+
+
   const handleActiveChat = (chat) => {
-    dispatch(setCurrentChat(chat))
+    dispatch(setCurrentChat(chat));
   };
 
   const getChats = async () => {
@@ -40,6 +43,7 @@ function Sidebar() {
     }
   };
 
+  // fetch all chats 
   useEffect(() => {
     getChats();
   }, []);
@@ -52,9 +56,8 @@ function Sidebar() {
           justifyContent="space-between"
           alignItems={"center"}
           padding="24px"
-          // paddingBottom={"0"}
           bgColor={"#43c651"}
-          borderRadius="16px  16px 0 0 "
+          borderRadius="16px 0 0 0 "
         >
           <Text
             color={"white"}
@@ -66,21 +69,18 @@ function Sidebar() {
           </Text>
           <SearchModal getChats={getChats} />
         </Box>
-        {/* <Box padding="10px">
-          <Input placeholder="Search users..." />
-          <Box display={"none"}>ResultBox</Box>
-        </Box> */}
+
+        {/* mapping all chats */}
         <Box
           height="65vh"
-          // overflow={"hidden"}
           overflowY={"scroll"}
           className={style.scroller}
           bgColor="white"
-          // border={"2px solid #43c651"}
         >
           {chats &&
             chats.map((item, i) => {
-              if (item._id == currentChat._id) {
+              // if(chat is selected for chatting)
+              if (item._id === currentChat._id) {
                 return (
                   <Box
                     key={i}
@@ -125,14 +125,14 @@ function Sidebar() {
                   </Box>
                 );
               }
+
+              // normal rendering
               return (
                 <Box
                   key={i}
                   display={"flex"}
                   height="60px"
                   border={"1px solid #9ed6a9"}
-                  // bgColor="#9ed6a9"
-                  // boxShadow= "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px"
                   borderRadius={"4px"}
                   margin="10px"
                   padding={"10px"}
@@ -175,6 +175,7 @@ function Sidebar() {
         </Box>
       </Box>
 
+      {/* showing userProfile and group icon */}
       <Box
         position="absolute"
         width={"100%"}
@@ -182,16 +183,30 @@ function Sidebar() {
         bottom="0"
         bg="#43c651"
         borderRadius={"20px 20px 0 0"}
+        display="flex"
+        justifyContent={"space-between"}
+        alignItems="center"
+        padding={"20px"}
       >
-        profile
+        <Box color={"white"} fontSize="20px" fontWeight={"bold"}>
+          Hi... {user.name}
+        </Box>
+        <Box color="white" fontSize={"20px"}>
+          <button>
+            <AiOutlineUsergroupAdd size={"	1.5em"} />
+          </button>
+        </Box>
       </Box>
-      <Box></Box>
     </div>
   );
 }
 
 export default Sidebar;
 
+
+
+
+// some js logics require while rendering all chats in ui
 function giveUserForChatName(arr, isGroup, chatname, id) {
   if (isGroup) {
     return chatname;
@@ -207,6 +222,7 @@ function giveUserForImage(arr, isGroup, chatname, id) {
   if (isGroup) {
     return chatname;
   }
+  console.log(arr)
   let user = arr.filter((item) => item._id !== id);
   if (user.length > 0) {
     const avatar = user[0].avatar;

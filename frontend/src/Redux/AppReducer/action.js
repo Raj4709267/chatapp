@@ -8,6 +8,15 @@ const setCurrentChat=(payload)=>{
     }
 }
 
+
+const setCurrentMessages=(payload)=>{
+    return {
+        type:types.GETCHAT_SUCCESS,
+        payload
+
+    }
+}
+
 const getChatSuccess=(payload)=>{
     return {
         type:types.GETCHAT_SUCCESS,
@@ -15,4 +24,4 @@ const getChatSuccess=(payload)=>{
     }
 }
 
-export {getChatSuccess,setCurrentChat}
+export {getChatSuccess,setCurrentChat,setCurrentMessages}

@@ -13,7 +13,7 @@ function PrivateRoute({ children }) {
   
   //   dispatch(loginSuccess(JSON.parse(localStorage.getItem("userDetails"))))
   // },[])
-  if (true) {
+  if (isAuth) {
     return children;
   } else {
     return <Register />;

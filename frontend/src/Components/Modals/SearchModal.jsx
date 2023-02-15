@@ -18,11 +18,14 @@ import { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-function SearchModal({getChats}) {
+function SearchModal({ getChats }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [query, setQuery] = useState("");
   const [searchData, setSearchData] = useState([]);
   const { user } = useSelector((store) => store.AuthReducer);
+
+
+
 
   async function handleUserSearch(e) {
     let value = e.target.value;
@@ -56,12 +59,11 @@ function SearchModal({getChats}) {
     };
 
     try {
-      const res = await axios.post(
+      await axios.post(
         `http://localhost:8000/chat/createchat`,
         payload,
         config
       );
-      // setSearchData(res.data.data);
       getChats();
       setQuery("");
       onClose();
@@ -69,6 +71,8 @@ function SearchModal({getChats}) {
       console.log(err);
     }
   };
+
+
   return (
     <>
       <button onClick={onOpen}>
@@ -81,7 +85,6 @@ function SearchModal({getChats}) {
           <ModalHeader>Search Friends</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {/* <Lorem count={2} /> */}
             <Input
               placeholder="Enter Name or Email"
               value={query}

@@ -22,7 +22,7 @@ app.use("/chat",authentication,chatRoutes)
 app.use("/message",authentication,messageRoutes)
 
 
-app.listen(PORT,async()=>{
+const server =app.listen(PORT,async()=>{
     try {
         await connection;
         console.log("connected to db");
@@ -34,24 +34,30 @@ app.listen(PORT,async()=>{
       console.log("server running at " + PORT);
 })
 
-// const io = require("socket.io")(server, {
-//   pingTimeout: 60000,
-//   cors: {
-//     origin: "http://localhost:3000",
-//     // credentials: true,
-//   },
-// });
+const io = require("socket.io")(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: "http://localhost:3000",
+    // credentials: true,
+  },
+});
 
 
-// io.on("connection",(socket)=>{
-//   // socket.on("conn",()=>{
-//     console.log("conneded")
-//   // })
+io.on("connection",(socket)=>{
+  // socket.on("conn",()=>{
+    console.log("conneded to socket.io")
+  // })
 
-//   socket.on("getting message",(message)=>{
-//     console.log(message)
-//     io.emit("send message",message)
-//   })
+  socket.on("newSocket",(userData)=>{
+    socket.join(userData.id);
+    socket.emit("connected")
+  })
+
+  socket.on("joinchat",(room)=>{
+    socket.join(room);
+    console.log("user join room "+ room)
+
+  })
   
 
-// })
+})
